@@ -4,9 +4,9 @@ import java.lang.management.ManagementFactory;
 import java.lang.management.MemoryMXBean;
 
 public class MemoryUtils {
-    public record MemorySnapshot (long heapUsed,
-                                  long nonHeapUsed,
-                                  long timeMillisecond) {}
+    public record MemorySnapshot (double heapUsed,
+                                  double nonHeapUsed,
+                                  double timeMillisecond) {}
 
     public static MemorySnapshot takeMemorySnapshot() {
         System.gc();

@@ -6,12 +6,12 @@ import java.util.List;
 
 import static com.tuto.utils.EmbeddedPostgres.Product;
 
-public class ExpensiveResourceLazyLoad {
+public class ExpensiveResourceLazyLoadNoThreadSafe {
 
     private List<Product> products;
     private static int nbUseOfConnection = 0;
 
-    public ExpensiveResourceLazyLoad() {
+    public ExpensiveResourceLazyLoadNoThreadSafe() {
         products = null;
     }
 

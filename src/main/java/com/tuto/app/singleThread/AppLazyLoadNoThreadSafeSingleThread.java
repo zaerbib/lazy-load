@@ -1,6 +1,6 @@
 package com.tuto.app.singleThread;
 
-import com.tuto.service.lazyload.nothreadSafe.ExpensiveResourceLazyLoad;
+import com.tuto.service.lazyload.nothreadSafe.ExpensiveResourceLazyLoadNoThreadSafe;
 import com.tuto.utils.MemoryUtils;
 
 import java.util.Random;
@@ -20,7 +20,7 @@ public class AppLazyLoadNoThreadSafeSingleThread {
         Random random = new Random();
 
         for(int i = 0; i < 50; i++) {
-            ExpensiveResourceLazyLoad resource = new ExpensiveResourceLazyLoad();
+            ExpensiveResourceLazyLoadNoThreadSafe resource = new ExpensiveResourceLazyLoadNoThreadSafe();
             resource.doSomethingElse();
 
             if(random.nextDouble() <= 0.01) {
@@ -36,7 +36,7 @@ public class AppLazyLoadNoThreadSafeSingleThread {
         Random random = new Random();
 
         for(int i = 0; i < 50; i++) {
-            ExpensiveResourceLazyLoad resource = new ExpensiveResourceLazyLoad();
+            ExpensiveResourceLazyLoadNoThreadSafe resource = new ExpensiveResourceLazyLoadNoThreadSafe();
             resource.doSomethingElse();
 
             if(random.nextDouble() <= 0.01) {
