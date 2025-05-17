@@ -44,6 +44,6 @@ public class AppLazyLoadNoThreadSafeSingleThread {
             }
         }
         MemoryUtils.MemorySnapshot after = takeMemorySnapshot();
-        return memoryDifference(before, after);
+        return memorySnapshotDifference(before, after);
     }
 }

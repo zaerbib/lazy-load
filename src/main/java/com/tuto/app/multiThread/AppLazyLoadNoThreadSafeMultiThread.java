@@ -49,7 +49,8 @@ public class AppLazyLoadNoThreadSafeMultiThread {
                         }
                     }
                     MemorySnapshot after = takeMemorySnapshot();
-                    hashMap.put("AppLazyLoadNoThreadSafeMultiThread", memoryDifference(before, after));
+                    hashMap.put("AppLazyLoadNoThreadSafeMultiThread-"+Thread.currentThread().getName(),
+                            memorySnapshotDifference(before, after));
                 } catch (InterruptedException e) {
                     System.out.println("Operation failed for " + Thread.currentThread().getName());
                 } finally {
@@ -72,17 +73,12 @@ public class AppLazyLoadNoThreadSafeMultiThread {
                 .average()
                 .orElse(0.0);
 
-        double averageNonHeap = hashMap.values().stream()
-                .mapToDouble(MemorySnapshot::nonHeapUsed)
-                .average()
-                .orElse(0.0);
-
         double averageDuration = hashMap.values().stream()
                 .mapToDouble(MemorySnapshot::timeMillisecond)
                 .average()
                 .orElse(0.0);
 
-        return new MemorySnapshot(averageHeap, averageNonHeap, averageDuration);
+        return new MemorySnapshot(averageHeap, averageDuration);
     }
 
     /**
