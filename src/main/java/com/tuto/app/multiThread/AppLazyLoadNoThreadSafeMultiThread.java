@@ -1,4 +1,4 @@
-package com.tuto;
+package com.tuto.app.multiThread;
 
 import com.tuto.service.lazyload.nothreadSafe.ExpensiveResourceLazyLoad;
 

@@ -26,4 +26,10 @@ public class MemoryUtils {
         System.out.printf("Non-Heap: %+f mb\n", (after.nonHeapUsed - before.nonHeapUsed) * Double.parseDouble("1e-6"));
         System.out.printf("Time duration in second : %+f second\n", (after.timeMillisecond - before.timeMillisecond) * Double.parseDouble("1e-3"));
     }
+
+    public static MemorySnapshot memoryDifference(MemorySnapshot before, MemorySnapshot after) {
+        return new MemorySnapshot(after.heapUsed - before.heapUsed,
+                after.nonHeapUsed - before.nonHeapUsed,
+                after.timeMillisecond - before.timeMillisecond);
+    }
 }

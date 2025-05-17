@@ -1,10 +1,11 @@
-package com.tuto;
+package com.tuto.app.singleThread;
 
 import com.tuto.service.lazyload.nothreadSafe.ExpensiveResourceLazyLoad;
 import com.tuto.utils.MemoryUtils;
 
-import static com.tuto.utils.MemoryUtils.printMemoryDifference;
-import static com.tuto.utils.MemoryUtils.takeMemorySnapshot;
+import java.util.Random;
+
+import static com.tuto.utils.MemoryUtils.*;
 
 public class AppLazyLoadNoThreadSafeSingleThread {
     public static void main(String[] args) {
@@ -16,11 +17,33 @@ public class AppLazyLoadNoThreadSafeSingleThread {
 
     private static void lazyLoadNoThreadSafeSingleThread() {
         MemoryUtils.MemorySnapshot before = takeMemorySnapshot();
+        Random random = new Random();
+
         for(int i = 0; i < 50; i++) {
             ExpensiveResourceLazyLoad resource = new ExpensiveResourceLazyLoad();
             resource.doSomethingElse();
+
+            if(random.nextDouble() <= 0.01) {
+                resource.getProducts();
+            }
         }
         MemoryUtils.MemorySnapshot after = takeMemorySnapshot();
         printMemoryDifference(before, after);
+    }
+
+    private static MemoryUtils.MemorySnapshot lazyLoadNoThreadSafeSingleThreadMemorySnapshot() {
+        MemoryUtils.MemorySnapshot before = takeMemorySnapshot();
+        Random random = new Random();
+
+        for(int i = 0; i < 50; i++) {
+            ExpensiveResourceLazyLoad resource = new ExpensiveResourceLazyLoad();
+            resource.doSomethingElse();
+
+            if(random.nextDouble() <= 0.01) {
+                resource.getProducts();
+            }
+        }
+        MemoryUtils.MemorySnapshot after = takeMemorySnapshot();
+        return memoryDifference(before, after);
     }
 }
