@@ -36,7 +36,7 @@ public class AppNoLazyLoad {
         printMemoryDifference(before, after);
     }
 
-    private static MemorySnapshot noLazyLoadSingleThreadMemorySnapshot() {
+    public static MemorySnapshot noLazyLoadSingleThreadMemorySnapshot() {
         MemorySnapshot before = takeMemorySnapshot();
         Random random = new Random();
 

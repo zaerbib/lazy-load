@@ -31,7 +31,7 @@ public class AppLazyLoadNoThreadSafeSingleThread {
         printMemoryDifference(before, after);
     }
 
-    private static MemoryUtils.MemorySnapshot lazyLoadNoThreadSafeSingleThreadMemorySnapshot() {
+    public static MemoryUtils.MemorySnapshot lazyLoadNoThreadSafeSingleThreadMemorySnapshot() {
         MemoryUtils.MemorySnapshot before = takeMemorySnapshot();
         Random random = new Random();
 

@@ -22,7 +22,7 @@ public class AppLazyLoadThreadSafeMultiThread {
      * compute average on all memory snapshot
      * @return memory snapshot that is an average
      */
-    public static MemoryUtils.MemorySnapshot lazyLoadNoThreadSafeMultiThreadMemorySnapshot() throws InterruptedException {
+    public static MemoryUtils.MemorySnapshot lazyLoadThreadSafeMultiThreadMemorySnapshot() throws InterruptedException {
         int threadCount = 16;
         ConcurrentHashMap<String, MemoryUtils.MemorySnapshot> hashMap = new ConcurrentHashMap<>();
         CountDownLatch startLatch = new CountDownLatch(1);

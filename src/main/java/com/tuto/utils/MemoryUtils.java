@@ -9,10 +9,10 @@ public class MemoryUtils {
 
     public static MemorySnapshot takeMemorySnapshot() {
         System.gc();
-        long timeSnapShot = System.currentTimeMillis();
+        double timeSnapShot = System.currentTimeMillis() * Double.parseDouble("1e-3");
 
         MemoryMXBean memoryMXBean = ManagementFactory.getMemoryMXBean();
-        long heapUsed = memoryMXBean.getHeapMemoryUsage().getUsed();
+        double heapUsed = (double) memoryMXBean.getHeapMemoryUsage().getUsed() / (1024 * 1024);
 
         return new MemorySnapshot(heapUsed, timeSnapShot);
     }
@@ -20,8 +20,8 @@ public class MemoryUtils {
     public static void printMemoryDifference(MemorySnapshot before, MemorySnapshot after) {
         System.out.println("-------------------------------------");
         System.out.println("Memory change report:");
-        System.out.printf("Heap: %+f mb\n", (after.heapUsed - before.heapUsed) * Double.parseDouble("1e-6"));
-        System.out.printf("Time duration in second : %+f second\n", (after.timeMillisecond - before.timeMillisecond) * Double.parseDouble("1e-3"));
+        System.out.printf("Heap: %+f mb\n", after.heapUsed - before.heapUsed);
+        System.out.printf("Time duration in second : %+f second\n", after.timeMillisecond - before.timeMillisecond);
     }
 
     public static MemorySnapshot memorySnapshotDifference(MemorySnapshot before, MemorySnapshot after) {
