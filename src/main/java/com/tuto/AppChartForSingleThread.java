@@ -1,8 +1,9 @@
 package com.tuto;
 
+import com.tuto.app.multiThread.AppNoLazyLoadMultiThread;
 import com.tuto.app.singleThread.AppLazyLoadNoThreadSafeSingleThread;
 import com.tuto.app.singleThread.AppLazyLoadThreadSafeSingleThread;
-import com.tuto.app.singleThread.AppNoLazyLoad;
+import com.tuto.utils.MemoryUtils;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -13,8 +14,16 @@ import javax.swing.*;
 import static com.tuto.utils.MemoryUtils.MemorySnapshot;
 
 public class AppChartForSingleThread extends JFrame{
-    public AppChartForSingleThread() {
-        // MemorySnapshot noLazyLoading = AppNoLazyLoad.noLazyLoadSingleThreadMemorySnapshot();;
+
+    public static boolean computeNoLazyLoad = false;
+
+    public AppChartForSingleThread() throws InterruptedException {
+        MemoryUtils.MemorySnapshot noLazyLoading = null;
+
+        if(computeNoLazyLoad) {
+            noLazyLoading = AppNoLazyLoadMultiThread.noLazyLoadMultiThreadMemorySnapshot();
+        }
+
         MemorySnapshot lazyLoadNoThreadSafe = AppLazyLoadNoThreadSafeSingleThread
                 .lazyLoadNoThreadSafeSingleThreadMemorySnapshot();
         MemorySnapshot lazyLoadThreadSafe =  AppLazyLoadThreadSafeSingleThread
@@ -22,8 +31,12 @@ public class AppChartForSingleThread extends JFrame{
 
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        // dataset.addValue(noLazyLoading.heapUsed(), "Heap Used", "No Lazy Loading");
-        // dataset.addValue(noLazyLoading.timeMillisecond(), "Time Elapsed", "No Lazy Loading");
+
+        if(computeNoLazyLoad) {
+            dataset.addValue(noLazyLoading.heapUsed(), "Heap Used", "No Lazy Loading");
+            dataset.addValue(noLazyLoading.timeMillisecond(), "Time Elapsed", "No Lazy Loading");
+        }
+
         dataset.addValue(lazyLoadNoThreadSafe.heapUsed(), "Heap Used", "Lazy Loading No Thread Safe");
         dataset.addValue(lazyLoadNoThreadSafe.timeMillisecond(), "Time Elapsed", "Lazy Loading No Thread Safe");
         dataset.addValue(lazyLoadThreadSafe.heapUsed(), "Heap Used", "Lazy Loading Thread Safe");
@@ -44,10 +57,14 @@ public class AppChartForSingleThread extends JFrame{
 
     public static void main(String[] args) {
         SwingUtilities.invokeLater(() -> {
-            AppChartForSingleThread example = new AppChartForSingleThread();
-            example.setSize(900, 600);
-            example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-            example.setVisible(true);
+            try {
+                AppChartForSingleThread example = new AppChartForSingleThread();
+                example.setSize(900, 600);
+                example.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+                example.setVisible(true);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

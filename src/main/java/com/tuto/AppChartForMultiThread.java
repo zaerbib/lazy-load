@@ -12,8 +12,16 @@ import org.jfree.data.category.DefaultCategoryDataset;
 import javax.swing.*;
 
 public class AppChartForMultiThread extends JFrame {
+
+    public static boolean computeNoLazyLoad = false;
+
     public AppChartForMultiThread() throws InterruptedException {
-        // MemoryUtils.MemorySnapshot noLazyLoading = AppNoLazyLoadMultiThread.noLazyLoadMultiThreadMemorySnapshot();
+        MemoryUtils.MemorySnapshot noLazyLoading = null;
+
+        if(computeNoLazyLoad) {
+            noLazyLoading = AppNoLazyLoadMultiThread.noLazyLoadMultiThreadMemorySnapshot();
+        }
+
         MemoryUtils.MemorySnapshot lazyLoadNoThreadSafe = AppLazyLoadNoThreadSafeMultiThread
                 .lazyLoadNoThreadSafeMultiThreadMemorySnapshot();
         MemoryUtils.MemorySnapshot lazyLoadThreadSafe = AppLazyLoadThreadSafeMultiThread
@@ -21,8 +29,12 @@ public class AppChartForMultiThread extends JFrame {
 
 
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        // dataset.addValue(noLazyLoading.heapUsed(), "Heap Used", "No Lazy Loading");
-        // dataset.addValue(noLazyLoading.timeMillisecond(), "Time Elapsed", "No Lazy Loading");
+
+        if(computeNoLazyLoad) {
+            dataset.addValue(noLazyLoading.heapUsed(), "Heap Used", "No Lazy Loading");
+            dataset.addValue(noLazyLoading.timeMillisecond(), "Time Elapsed", "No Lazy Loading");
+        }
+
         dataset.addValue(lazyLoadNoThreadSafe.heapUsed(), "Heap Used", "Lazy Loading No Thread Safe");
         dataset.addValue(lazyLoadNoThreadSafe.timeMillisecond(), "Time Elapsed", "Lazy Loading No Thread Safe");
         dataset.addValue(lazyLoadThreadSafe.heapUsed(), "Heap Used", "Lazy Loading Thread Safe");
